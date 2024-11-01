@@ -19,13 +19,10 @@ function determinarProximoJocador(){
 }
 
 //2: verificar quem é o jogador atual
-//verificar o jogador 
-function checarVencedor(){
-  const combinacoesVencedoras =[
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], //linhas
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], //Colunas
-    [0, 4, 8], [2, 4, 6]             //diagonais
-  ];
+function alternarJogador() {
+  jogadorAtual = jogadorAtual === JOGADOR_BOLA ? JOGADOR_XIS : JOGADOR_BOLA;
+}
+
 
   for (let combinacao of combinacoesVencedoras){
     const [a, b, c] = combinacao;
@@ -33,7 +30,6 @@ function checarVencedor(){
       return jogadas[a];
     }
   }
-}
 
 mesa.addEventListener("click", (event) => {
   const quadrado = event.target;
@@ -47,5 +43,15 @@ if (quadrado.innerHTML || jogadas[index]){
   quadrado.innerHTML = jogadorAtual === JOGADOR_BOLA ? o : x;
   jogadas[index] = jogadorAtual;
   //BONUS: identificar quando o jogo acabar e mostrar o vencedor 
+  const vencedor = checarVencedor();
+  if(vencedor){
+ alert(`O vencedor é: ${vencedor === JOGADOR_BOLA ? "O" : "X"}`);
+ jogador.fill(null);
+ quadrado.forEach( q => q.innerHTML = "");
+ jogadorAtual = JOGADOR_BOLA;
+ return;
 
+ 
+  }
+alternarJogador();
 });
